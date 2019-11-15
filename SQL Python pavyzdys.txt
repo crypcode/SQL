@@ -1,0 +1,81 @@
+import sqlite3
+from Employee import Employee
+
+
+
+def create_employee_table():
+    connection = sqlite3.connect("employee.db")
+
+    connection_cursor = connection.cursor()
+
+    connection_cursor.execute(""" CREATE TABLE IF NOT EXISTS employee (
+                                            id integer PRIMARY KEY,
+                                            first_name text,
+                                            last_name text,
+                                            pay_roll integer
+                                            )""")
+
+    connection.commit()
+
+    connection.close()
+
+
+create_employee_table()
+
+
+def create_employee():
+    connection = sqlite3.connect("employee.db")
+
+    connection_cursor = connection.cursor()
+
+    connection_cursor.execute(""" INSERT INTO employee (first_name, last_name, pay_roll)
+                                VALUES ('Vardenis', 'Pavardenis', 300)""")
+
+    connection.commit()
+
+    connection.close()
+create_employee()
+
+
+def get_employee():
+    connection = sqlite3.connect("employee.db")
+
+    connection_cursor = connection.cursor()
+    connection_cursor.execute(""" SELECT * FROM employee """)
+    connection.commit()
+
+    for row in connection_cursor.execute(""" SELECT * FROM employee """):
+        print(row)
+
+    connection.close()
+
+
+# create_employee_table()
+get_employee()
+def update_employee():
+    try:
+        connection = sqlite3.connect("employee.db")
+
+        connection_cursor = connection.cursor()
+
+        connection_cursor.execute("""UPDATE employee SET first_name = "Petras" WHERE first_name = "Vardenis" """)
+
+        connection.commit()
+        print(connection_cursor().fetchall())
+
+        connection.close()
+    except:
+        print(sqlite3.Error)
+    finally:
+        connection.close()
+
+def delete_employee():
+    connection = sqlite3.connect("employee.db")
+
+    connection_cursor = connection.cursor()
+
+    connection_cursor.execute(""" DELETE  FROM employee WHERE last_name = "Vardenis" """)
+
+    connection.commit()
+
+    connection.close()
