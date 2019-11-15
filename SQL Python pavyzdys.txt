@@ -34,7 +34,7 @@ def create_employee():
     connection.commit()
 
     connection.close()
-create_employee()
+# create_employee()
 
 
 def get_employee():
@@ -43,15 +43,21 @@ def get_employee():
     connection_cursor = connection.cursor()
     connection_cursor.execute(""" SELECT * FROM employee """)
     connection.commit()
-
+    rows = []
     for row in connection_cursor.execute(""" SELECT * FROM employee """):
         print(row)
+        rows.append(row)
 
     connection.close()
-
-
+    return rows
 # create_employee_table()
-get_employee()
+# get_employee()
+
+def get_employee_admin():
+    allemployees = get_employee()
+    print(allemployees)
+get_employee_admin()
+
 def update_employee():
     try:
         connection = sqlite3.connect("employee.db")
@@ -74,8 +80,9 @@ def delete_employee():
 
     connection_cursor = connection.cursor()
 
-    connection_cursor.execute(""" DELETE  FROM employee WHERE last_name = "Vardenis" """)
+    connection_cursor.execute(""" DELETE FROM employee WHERE id=3 """)
 
     connection.commit()
 
     connection.close()
+delete_employee()
